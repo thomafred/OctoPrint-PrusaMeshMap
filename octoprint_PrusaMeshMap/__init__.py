@@ -47,7 +47,7 @@ class PrusameshmapPlugin(octoprint.plugin.SettingsPlugin,
             matplotlib_heatmap_background_image_style = self._settings.get(["matplotlib_heatmap_background_image_style"]),
             output_mode = self._settings.get(["output_mode"]),
             pluginTestingMode = self._settings.get(["pluginTestingMode"])
-        )    
+        )
 
 
     ##~~ AssetPlugin mixin
@@ -180,18 +180,18 @@ class PrusameshmapPlugin(octoprint.plugin.SettingsPlugin,
 
         #Plot whichever image is selected per the above if/else
         plt.imshow(img, extent=[sheet_left_x, sheet_right_x, sheet_front_y, sheet_back_y], interpolation="lanczos", cmap=plt.cm.get_cmap('viridis'))
-        
+
 
         #plot the interpolated mesh, bar, and probed points
         #Depending on which mode you set it to
         if self.get_current_settings()["output_mode"] == "Bicubic Interpolation":
-            image = plt.imshow(np.flip(z_positions,axis=0),interpolation='bicubic',cmap='viridis',extent=minMax)#Plot the background 
+            image = plt.imshow(np.flip(z_positions,axis=0),interpolation='bicubic',cmap='viridis',extent=minMax)#Plot the background
             plt.colorbar(image,label="Measured Level (mm)")#Color bar on the side
         if self.get_current_settings()["output_mode"] == "ContourF Topology Map":
             contour = plt.contourf(xProbePoints, yProbePoints, z_positions, alpha=.75, antialiased=True, cmap=plt.cm.get_cmap(self._settings.get(["matplotlib_heatmap_theme"])))
             plt.colorbar(contour, label="Measured Level (mm)")
             #If you need to invert the data, use [::-1]
-        
+
         plt.scatter(xProbePoints,yProbePoints,color='r')#Scatterplot of probed points
 
         if self.get_current_settings()["matplotlib_heatmap_background_image_style"] == "MK52 Mode":
@@ -212,17 +212,17 @@ class PrusameshmapPlugin(octoprint.plugin.SettingsPlugin,
         #Plot with fancy contourf
 
 
-        
+
 
         # Save our graph as an image in the current directory.
-        
+
         plt.savefig(self.get_asset_folder() + '/img/heatmap.png', bbox_inches="tight")
         #plt.savefig('/home/pi/heatmap.png', bbox_inches="tight")
-        
 
 
 
-        
+
+
         plt.gcf().clear()
         plt.tight_layout()
         self._logger.info("Heatmap updated in Klipper Mode")
@@ -378,6 +378,7 @@ class PrusameshmapPlugin(octoprint.plugin.SettingsPlugin,
 # ("OctoPrint-PluginSkeleton"), you may define that here. Same goes for the other metadata derived from setup.py that
 # can be overwritten via __plugin_xyz__ control properties. See the documentation for that.
 __plugin_name__ = "Prusa Mesh Leveling"
+__plugin_pythoncompat__ = ">=2.7,<4"
 
 def __plugin_load__():
     global __plugin_implementation__
